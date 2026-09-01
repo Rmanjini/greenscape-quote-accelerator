@@ -30,7 +30,7 @@ HARD RULES:
 - If a scope item has no confident catalog match, set matched_sku=null and
   match_confidence=0. It is better to flag than to force a wrong SKU.
 - confidence and match_confidence are 0..1. High confidence in an INFERENCE is still
-  an inference — reflect uncertainty honestly.
+  an inference - reflect uncertainty honestly.
 - Put anything ambiguous, missing, or needing a human decision into "unknowns".`;
 
 // Strict JSON schema so the model must return exactly this shape.
@@ -97,7 +97,7 @@ export async function extractScope(
   notes: string,
   catalog: PricingItem[]
 ): Promise<ExtractOutcome> {
-  // Catalog WITHOUT prices — the model must not see or reason about money.
+  // Catalog WITHOUT prices - the model must not see or reason about money.
   const catalogForModel = catalog.map((c) => ({
     sku: c.sku,
     name: c.name,

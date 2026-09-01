@@ -1,7 +1,7 @@
 // Telegram = the real external integration. Marcus gets a phone push when a
 // quote is ready and taps "Approve & Send" or "Review" without opening a laptop.
 // Everything here is non-fatal: if Telegram isn't configured or errors, the
-// proposal still lives in the DB — we never lose work over a notification.
+// proposal still lives in the DB - we never lose work over a notification.
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -59,7 +59,7 @@ export async function notifyQuoteReady(p: {
   const flags = p.needs_review
     ? `\n\n⚠️ <b>${p.review_reasons.length} flag(s):</b>\n` +
       p.review_reasons.map((r) => `• ${r}`).join("\n")
-    : "\n\n✅ No flags — clean quote.";
+    : "\n\n✅ No flags - clean quote.";
   const text =
     `🌿 <b>Quote ready for review</b>\n` +
     `Customer: <b>${p.customer}</b>\n` +

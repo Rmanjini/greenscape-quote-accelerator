@@ -106,7 +106,7 @@ export default function NewQuote() {
         )}
 
         <button disabled={submitting} className="btn w-full">
-          {submitting ? "Analyzing notes…" : "Generate proposal"}
+          {submitting ? "Analyzing notes..." : "Generate proposal"}
         </button>
       </form>
     </div>

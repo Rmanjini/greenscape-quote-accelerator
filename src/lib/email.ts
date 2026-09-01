@@ -25,16 +25,16 @@ export async function sendProposalEmail(args: {
   pdf: Buffer;
 }): Promise<EmailResult> {
   const money = `$${Number(args.total).toLocaleString("en-US")}`;
-  const project = args.projectName ? ` — ${args.projectName}` : "";
+  const project = args.projectName ? ` - ${args.projectName}` : "";
   const html = `
     <div style="font-family:system-ui,sans-serif;color:#111;max-width:560px">
       <h2 style="color:#1f6d3b">Your Greenscape Pro Proposal</h2>
       <p>Hi ${args.customerName},</p>
       <p>Thanks for having us out. Your proposal${project} is attached as a PDF.
       The total investment is <strong>${money}</strong>.</p>
-      <p>Reply to this email to approve, or with any questions — we're happy to
+      <p>Reply to this email to approve, or with any questions - we're happy to
       walk through the details.</p>
-      <p style="color:#555">— Greenscape Pro · Phoenix, AZ</p>
+      <p style="color:#555">- Greenscape Pro - Phoenix, AZ</p>
     </div>`;
 
   try {

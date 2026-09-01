@@ -1,5 +1,5 @@
 // Standing self-check for the money math. Run: npx tsx src/lib/pricing.check.ts
-// No test framework on purpose — just asserts that fail loud if pricing breaks.
+// No test framework on purpose - just asserts that fail loud if pricing breaks.
 import assert from "node:assert";
 import { computePricing } from "./pricing";
 import type { ExtractionResult, PricingItem } from "../types";

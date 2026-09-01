@@ -36,7 +36,7 @@ export default function QuoteActions({ id, status }: { id: string; status: strin
             disabled={busy}
             className="btn btn-dark"
           >
-            {busy ? "Retrying…" : "Retry AI"}
+            {busy ? "Retrying..." : "Retry AI"}
           </button>
         )}
         {!sent && !failed && (
@@ -45,7 +45,7 @@ export default function QuoteActions({ id, status }: { id: string; status: strin
             disabled={busy}
             className="btn"
           >
-            {busy ? "Sending…" : "✅ Approve & Send"}
+            {busy ? "Sending..." : "✅ Approve & Send"}
           </button>
         )}
         {sent && <span className="chip bg-lime-300 text-black">Sent to customer ✓</span>}

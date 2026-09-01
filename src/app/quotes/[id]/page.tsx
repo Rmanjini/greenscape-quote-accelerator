@@ -7,7 +7,7 @@ import QuoteActions from "./QuoteActions";
 export const dynamic = "force-dynamic"; // always read fresh status
 
 const money = (n: number | null) =>
-  n == null ? "—" : `$${Number(n).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+  n == null ? "-" : `$${Number(n).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
 const STATUS_STYLE: Record<string, string> = {
   NEEDS_REVIEW: "bg-amber-300 text-black",
@@ -39,7 +39,7 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
   return (
     <div className="max-w-3xl">
       <Link href="/" className="text-sm text-neutral-500 hover:underline">
-        ← Dashboard
+        Back to dashboard
       </Link>
 
       <div className="mt-2 flex items-start justify-between">
@@ -47,7 +47,7 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
           <h1 className="h-brutal text-2xl">{contact?.name ?? "Customer"}</h1>
           <p className="text-sm font-medium text-neutral-700">
             {proposal.project_name || proposal.project_type || "Proposal"}
-            {contact?.email ? ` · ${contact.email}` : ""}
+            {contact?.email ? ` - ${contact.email}` : ""}
           </p>
         </div>
         <div className="flex flex-col items-end gap-2">
@@ -72,7 +72,7 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
 
       {!contact?.email && proposal.status !== "SENT" && (
         <div className="card mt-4 bg-amber-300/70 p-3 text-sm font-bold text-black">
-          ⚠️ Customer email is missing — required before sending.
+          ⚠️ Customer email is missing - required before sending.
         </div>
       )}
 
@@ -123,7 +123,7 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
                       )}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">
-                      {i.quantity ?? "—"} {i.unit ?? ""}
+                      {i.quantity ?? "-"} {i.unit ?? ""}
                       {i.quantity_status !== "explicit" && (
                         <span className="ml-1 rounded bg-neutral-200 px-1 text-[10px] uppercase text-neutral-600">
                           {i.quantity_status}
@@ -139,7 +139,7 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
                       )}
                     </td>
                     <td className="px-3 py-2 text-xs text-neutral-500">
-                      {i.confidence != null ? Math.round(i.confidence * 100) + "%" : "—"}
+                      {i.confidence != null ? Math.round(i.confidence * 100) + "%" : "-"}
                     </td>
                   </tr>
                 ))}

@@ -18,7 +18,7 @@ insert into pricing_items (sku, name, description, category, unit, unit_price) v
   ('FIREPIT-001',         'Gas Fire Pit (36in Standard)',      'Standard 36in gas fire pit',        'feature',    'each',    4200.00),
   ('FIREPIT-CUSTOM-001',  'Custom Masonry Fire Pit',           'Built-in stone/block fire pit',     'feature',    'each',    7800.00),
   ('OUTDOOR-FIREPLACE-001','Outdoor Fireplace',                'Full masonry outdoor fireplace',    'feature',    'each',   12500.00),
-  ('WATER-001',           'Water Feature — Basalt Columns',    'Bubbling basalt column set',        'feature',    'each',    6500.00),
+  ('WATER-001',           'Water Feature - Basalt Columns',    'Bubbling basalt column set',        'feature',    'each',    6500.00),
   ('RETWALL-001',         'Retaining Wall (Block)',            'Segmental block wall, per face sf', 'wall',       'sqft',      32.00),
   ('IRRIGATION-001',      'Irrigation System Install',         'Drip + spray zones',                'irrigation', 'linear_ft',  6.50),
   ('IRRIGATION-INSPECT-001','Irrigation Inspection',           'Test & report existing system',     'irrigation', 'lump_sum', 350.00),

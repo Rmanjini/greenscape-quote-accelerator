@@ -1,8 +1,8 @@
-# Greenscape Pro — Quote Accelerator
+# Greenscape Pro - Quote Accelerator
 
-Turns messy **site-walk notes → a review-ready proposal** the same day, instead of the 6–9 days Marcus spends building each one by hand. **AI prepares, Marcus approves.** This is the P0 agent from [`STRATEGY.md`](./STRATEGY.md).
+Turns messy **site-walk notes -> a review-ready proposal** the same day, instead of the 6-9 days Marcus spends building each one by hand. **AI prepares, Marcus approves.** This is the P0 agent from [`STRATEGY.md`](./STRATEGY.md).
 
-**Live:** _add Railway URL here_ · **Strategy doc:** [`STRATEGY.md`](./STRATEGY.md)
+**Live:** _add Railway URL here_ - **Strategy doc:** [`STRATEGY.md`](./STRATEGY.md)
 
 ---
 
@@ -12,22 +12,22 @@ Turns messy **site-walk notes → a review-ready proposal** the same day, instea
 
 ```
 site-walk notes
-   │  (OpenAI, structured output)
-   ▼
-scope items + quantities + best-match SKU + confidence     ← the LLM stops here
-   │  (application code, deterministic)
-   ▼
-look up unit_price from Postgres catalog → quantity × price → totals
+   |  (OpenAI, structured output)
+   v
+scope items + quantities + best-match SKU + confidence     <- the LLM stops here
+   |  (application code, deterministic)
+   v
+look up unit_price from Postgres catalog -> quantity x price -> totals
 ```
 
 The LLM only *identifies* scope and maps it to a catalog SKU. It is given the
 catalog **without prices** and literally cannot return money. The application
 looks up the authoritative unit price from Supabase and does the arithmetic. If
 the model can't confidently match a SKU, or a quantity is missing/inferred, the
-line gets `needs_review = true` and **no price is assigned** — the quote stops
+line gets `needs_review = true` and **no price is assigned** - the quote stops
 and asks for a human instead of hallucinating a number.
 
-That's the answer to *"how do you stop the AI hallucinating a price?"* — it never
+That's the answer to *"how do you stop the AI hallucinating a price?"* - it never
 had the price to hallucinate.
 
 ## How it works (end-to-end)
@@ -46,14 +46,14 @@ had the price to hallucinate.
 
 ## Guardrails
 
-- **No invented prices** — model never sees prices; unmatched item → `null` price + review flag.
-- **No invented quantities** — inferred/missing quantity → flagged (`quantity_status`).
-- **No hallucinated SKUs** — every SKU is validated against the catalog server-side.
-- **Human-in-the-loop** — nothing reaches a customer without an explicit Approve.
-- **No double-send** — approval is idempotent; an already-`SENT` quote won't resend.
-- **No false success** — if the send fails, status stays `APPROVED`, never `SENT`.
-- **No auto-discount** — discount is always 0 unless a human sets it.
-- **Bad AI output** — invalid JSON / API failure → proposal marked `FAILED`, notes
+- **No invented prices** - model never sees prices; unmatched item -> `null` price + review flag.
+- **No invented quantities** - inferred/missing quantity -> flagged (`quantity_status`).
+- **No hallucinated SKUs** - every SKU is validated against the catalog server-side.
+- **Human-in-the-loop** - nothing reaches a customer without an explicit Approve.
+- **No double-send** - approval is idempotent; an already-`SENT` quote won't resend.
+- **No false success** - if the send fails, status stays `APPROVED`, never `SENT`.
+- **No auto-discount** - discount is always 0 unless a human sets it.
+- **Bad AI output** - invalid JSON / API failure -> proposal marked `FAILED`, notes
   preserved, one-click **Retry**.
 
 ## Stack & why
@@ -69,9 +69,9 @@ had the price to hallucinate.
 
 ### Model choice & cost
 
-Default `OPENAI_MODEL=gpt-4o-mini`. One quote ≈ ~1.5K input + ~800 output tokens
-≈ **~$0.001 per quote** — negligible at ~150 quotes/year. Bump to `gpt-4o` (env
-var, no code change) for maximum match accuracy at ~1–2¢/quote if edge cases warrant.
+Default `OPENAI_MODEL=gpt-4o-mini`. One quote ~ ~1.5K input + ~800 output tokens
+~ **~$0.001 per quote** - negligible at ~150 quotes/year. Bump to `gpt-4o` (env
+var, no code change) for maximum match accuracy at ~1-2c/quote if edge cases warrant.
 
 ## Run it locally
 
@@ -86,22 +86,22 @@ Money-math self-check: `npx tsx src/lib/pricing.check.ts`
 
 ## Deploy (Railway)
 
-1. Create a Railway project → **Deploy from GitHub repo** → this repo.
+1. Create a Railway project -> **Deploy from GitHub repo** -> this repo.
 2. Add all env vars from `.env.example`.
 3. Railway builds with `npm run build` and starts with `npm start` (binds `$PORT`).
 4. Set `NEXT_PUBLIC_APP_URL` to the Railway URL.
 
 ### Wire up Telegram (2 min)
 
-1. Create a bot with [@BotFather](https://t.me/botfather) → `TELEGRAM_BOT_TOKEN`.
-2. Message your bot, then get your chat id from [@userinfobot](https://t.me/userinfobot) → `TELEGRAM_CHAT_ID`.
+1. Create a bot with [@BotFather](https://t.me/botfather) -> `TELEGRAM_BOT_TOKEN`.
+2. Message your bot, then get your chat id from [@userinfobot](https://t.me/userinfobot) -> `TELEGRAM_CHAT_ID`.
 3. Register the inline-button webhook (so Approve works from Telegram):
 
 ```bash
 curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=<APP_URL>/api/telegram/webhook?secret=<TELEGRAM_WEBHOOK_SECRET>"
 ```
 
-Telegram is optional — if unset, the app still works (notifications are skipped, approve via the dashboard).
+Telegram is optional - if unset, the app still works (notifications are skipped, approve via the dashboard).
 
 ## Trade-offs & what breaks first at scale
 
@@ -121,7 +121,7 @@ Honest about the edges, since this was scoped to 24h:
   shape, so going live is a single function body + OAuth + rate-limit handling.
 - **No in-UI line-item editing yet.** Marcus can retry the AI or fix downstream in
   GHL; inline editing of a flagged quantity is the highest-value next UI change.
-- **Pricing model is simple.** `qty × unit_price`; no tax, fees, or tiered
+- **Pricing model is simple.** `qty x unit_price`; no tax, fees, or tiered
   discounts modeled yet (discount is deliberately locked at 0 as a guardrail).
 
 ## What I'd do next (scope cut for 24h)

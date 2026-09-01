@@ -2,9 +2,9 @@ import PDFDocument from "pdfkit";
 import type { Proposal, ProposalItem } from "@/types";
 
 const money = (n: number | null) =>
-  n == null ? "—" : `$${Number(n).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+  n == null ? "-" : `$${Number(n).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
-// Customer-facing proposal PDF. Only priced, non-flagged items appear — flagged
+// Customer-facing proposal PDF. Only priced, non-flagged items appear - flagged
 // lines are held back for Marcus, exactly like the emailed text version.
 export function buildProposalPdf(
   proposal: Proposal,
@@ -25,7 +25,7 @@ export function buildProposalPdf(
   // Header band
   doc.rect(0, 0, doc.page.width, 90).fill(brand);
   doc.fillColor("white").fontSize(22).font("Helvetica-Bold").text("Greenscape Pro", left, 30);
-  doc.fontSize(10).font("Helvetica").text("Premium Outdoor Living · Phoenix, AZ", left, 58);
+  doc.fontSize(10).font("Helvetica").text("Premium Outdoor Living - Phoenix, AZ", left, 58);
   doc.fillColor("black");
 
   doc.moveDown(4);
@@ -92,12 +92,12 @@ export function buildProposalPdf(
 
   section("Next Steps");
   doc.text(
-    "Reply to approve this proposal and we'll schedule your build. Questions or adjustments? Just let us know — we're happy to walk through the details.",
+    "Reply to approve this proposal and we'll schedule your build. Questions or adjustments? Just let us know - we're happy to walk through the details.",
     { width: right - left }
   );
 
   doc.moveDown(2);
-  doc.fontSize(8).fillColor("#999").text("Greenscape Pro · This proposal is valid for 30 days.", left, doc.y, {
+  doc.fontSize(8).fillColor("#999").text("Greenscape Pro - This proposal is valid for 30 days.", left, doc.y, {
     width: right - left,
     align: "center",
   });

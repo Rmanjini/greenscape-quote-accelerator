@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       await editMessageText(
         cb.message.chat.id,
         cb.message.message_id,
-        `${cb.message.text ?? "Quote"}\n\n— ${msg}`
+        `${cb.message.text ?? "Quote"}\n\n- ${msg}`
       );
     }
   } else {

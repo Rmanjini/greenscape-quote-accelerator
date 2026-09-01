@@ -69,9 +69,9 @@ export default async function Dashboard() {
       <p className="mb-4 text-sm font-medium text-neutral-700">
         Avg AI quote-draft time:{" "}
         <span className="chip bg-lime-300 text-black">
-          {avgMs != null ? `${(avgMs / 1000).toFixed(1)}s` : "—"}
+          {avgMs != null ? `${(avgMs / 1000).toFixed(1)}s` : "-"}
         </span>{" "}
-        vs. Marcus&apos;s current <span className="font-bold">6–9 days</span> by hand.
+        vs. Marcus&apos;s current <span className="font-bold">6-9 days</span> by hand.
       </p>
 
       <div className="card overflow-hidden">

@@ -1,4 +1,4 @@
--- Greenscape Pro Quote Accelerator — schema
+-- Greenscape Pro Quote Accelerator - schema
 -- Run in the Supabase SQL editor (or psql). Idempotent-ish: drops are commented out.
 -- v1 folds "projects" into "proposals" (one proposal per site walk).
 

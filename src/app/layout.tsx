@@ -3,8 +3,8 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Greenscape Pro — Quote Accelerator",
-  description: "Site-walk notes → review-ready proposal. AI prepares, Marcus approves.",
+  title: "Greenscape Pro - Quote Accelerator",
+  description: "Site-walk notes -> review-ready proposal. AI prepares, Marcus approves.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

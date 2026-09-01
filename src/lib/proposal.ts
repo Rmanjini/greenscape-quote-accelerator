@@ -1,9 +1,9 @@
 import type { Proposal, ProposalItem } from "@/types";
 
 const money = (n: number | null) =>
-  n == null ? "—" : `$${n.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+  n == null ? "-" : `$${n.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
-// Deterministic customer-facing proposal text assembled from stored data — no
+// Deterministic customer-facing proposal text assembled from stored data - no
 // second LLM call, so no extra hallucination surface. Only priced, non-flagged
 // items go in the base scope; flagged items are held back for Marcus.
 export function formatCustomerProposal(p: Proposal, items: ProposalItem[], customer: string) {
@@ -11,14 +11,14 @@ export function formatCustomerProposal(p: Proposal, items: ProposalItem[], custo
   const lines = priced
     .map(
       (i) =>
-        `• ${i.description} — ${i.quantity ?? ""} ${i.unit ?? ""} @ ${money(
+        `• ${i.description} - ${i.quantity ?? ""} ${i.unit ?? ""} @ ${money(
           i.unit_price
         )} = ${money(i.line_total)}`
     )
     .join("\n");
 
   return [
-    `Greenscape Pro — Proposal`,
+    `Greenscape Pro - Proposal`,
     `Prepared for: ${customer}`,
     p.project_name ? `Project: ${p.project_name}` : "",
     ``,

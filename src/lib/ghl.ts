@@ -1,5 +1,5 @@
 // GoHighLevel adapter. GHL is the client's system of record ("everything has to
-// be in GHL or it won't get used" — Jenna). We have no GHL creds for the
+// be in GHL or it won't get used" - Jenna). We have no GHL creds for the
 // take-home, so this runs in MOCK mode by default and returns a synthetic
 // message id. The interface is the real one, so swapping in the live API later
 // is a single function body change, not a refactor.

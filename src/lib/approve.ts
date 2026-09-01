@@ -88,7 +88,7 @@ export async function approveAndSend(proposalId: string, actor: string): Promise
   }
 
   if (!sent.ok) {
-    // Stay APPROVED — never falsely show SENT.
+    // Stay APPROVED - never falsely show SENT.
     await supabase.from("audit_logs").insert({
       proposal_id: proposalId,
       actor,
