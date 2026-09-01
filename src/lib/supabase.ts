@@ -12,6 +12,9 @@ if (!url || !key) {
   console.warn("[supabase] NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set");
 }
 
-export const supabase = createClient(url ?? "", key ?? "", {
+// Placeholders keep createClient from throwing at build/import when env is
+// absent (route modules are evaluated during `next build`). Real values are
+// injected at runtime on Railway.
+export const supabase = createClient(url || "http://localhost:54321", key || "placeholder-key", {
   auth: { persistSession: false },
 });

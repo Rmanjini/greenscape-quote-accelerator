@@ -4,7 +4,10 @@ import type { ExtractionResult, ExtractedItem, PricingItem } from "@/types";
 export const PROMPT_VERSION = "extract-v1";
 const MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// Lazy init: don't construct the client at import time (throws without a key,
+// which would break `next build` in CI where the key isn't present).
+let _client: OpenAI | null = null;
+const client = () => (_client ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY }));
 
 // Condensed guardrails from the master system prompt. The load-bearing rules:
 // never invent prices/quantities/materials; SKU must come from the catalog;
@@ -104,7 +107,7 @@ export async function extractScope(
   }));
 
   const started = Date.now();
-  const completion = await openai.chat.completions.create({
+  const completion = await client().chat.completions.create({
     model: MODEL,
     temperature: 0.1,
     messages: [
