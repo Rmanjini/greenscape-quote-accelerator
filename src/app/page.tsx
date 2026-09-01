@@ -16,22 +16,31 @@ const STATUS_STYLE: Record<string, string> = {
 
 export default async function Dashboard() {
   // Resilient to a missing/unreachable DB so the shell still renders.
-  const { data: rows } = await supabase
-    .from("proposals")
-    .select("id, total, status, created_at, contacts(name)")
-    .order("created_at", { ascending: false })
-    .then((r) => r, () => ({ data: [] as any[] }));
-  const proposals = rows ?? [];
+  let proposals: any[] = [];
+  try {
+    const { data } = await supabase
+      .from("proposals")
+      .select("id, total, status, created_at, contacts(name)")
+      .order("created_at", { ascending: false });
+    proposals = data ?? [];
+  } catch {
+    proposals = [];
+  }
 
   const count = (s: string) => proposals.filter((p) => p.status === s).length;
   const needsAttention = count("NEEDS_REVIEW") + count("FAILED");
 
-  const { data: runs } = await supabase
-    .from("ai_runs")
-    .select("latency_ms")
-    .eq("status", "ok")
-    .not("latency_ms", "is", null)
-    .then((r) => r, () => ({ data: [] as any[] }));
+  let runs: { latency_ms: number | null }[] = [];
+  try {
+    const { data } = await supabase
+      .from("ai_runs")
+      .select("latency_ms")
+      .eq("status", "ok")
+      .not("latency_ms", "is", null);
+    runs = data ?? [];
+  } catch {
+    runs = [];
+  }
   const avgMs =
     runs && runs.length
       ? Math.round(runs.reduce((s, r) => s + (r.latency_ms ?? 0), 0) / runs.length)

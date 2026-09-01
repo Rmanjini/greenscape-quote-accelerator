@@ -17,4 +17,11 @@ if (!url || !key) {
 // injected at runtime on Railway.
 export const supabase = createClient(url || "http://localhost:54321", key || "placeholder-key", {
   auth: { persistSession: false },
+  // Force fresh reads. Next.js caches fetch() by default and can serve a stale
+  // (even empty) response for list queries; an internal quoting dashboard must
+  // always reflect the live DB. no-store opts every Supabase call out of it.
+  global: {
+    fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+      fetch(input, { ...init, cache: "no-store" }),
+  },
 });
