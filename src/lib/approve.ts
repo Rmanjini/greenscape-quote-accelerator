@@ -1,6 +1,8 @@
 import { supabase } from "@/lib/supabase";
 import { sendProposalToCustomer } from "@/lib/ghl";
 import { formatCustomerProposal } from "@/lib/proposal";
+import { buildProposalPdf } from "@/lib/pdf";
+import { resendConfigured, sendProposalEmail } from "@/lib/email";
 import type { Proposal, ProposalItem } from "@/types";
 
 export interface ApproveResult {
@@ -56,21 +58,34 @@ export async function approveAndSend(proposalId: string, actor: string): Promise
     action: "approved",
   });
 
-  const { data: items } = await supabase
+  const { data: itemRows } = await supabase
     .from("proposal_items")
     .select("*")
     .eq("proposal_id", proposalId);
-  const body = formatCustomerProposal(
-    proposal,
-    (items ?? []) as ProposalItem[],
-    contact?.name ?? "Customer"
-  );
+  const items = (itemRows ?? []) as ProposalItem[];
 
-  const sent = await sendProposalToCustomer({
-    ghl_contact_id: contact?.ghl_contact_id ?? null,
-    customer_email: contact?.email ?? null,
-    body,
-  });
+  // Deliver: real email (Resend) with the proposal PDF when configured;
+  // otherwise fall back to the GHL mock so the flow still completes.
+  let sent: { ok: boolean; message_id: string; mode: string; error?: string };
+  if (resendConfigured() && contact?.email) {
+    const pdf = await buildProposalPdf(proposal, items, contact?.name ?? "Customer");
+    const r = await sendProposalEmail({
+      to: contact.email,
+      customerName: contact?.name ?? "Customer",
+      projectName: proposal.project_name,
+      total: proposal.total,
+      pdf,
+    });
+    sent = { ok: r.ok, message_id: r.message_id, mode: "email", error: r.error };
+  } else {
+    const body = formatCustomerProposal(proposal, items, contact?.name ?? "Customer");
+    const r = await sendProposalToCustomer({
+      ghl_contact_id: contact?.ghl_contact_id ?? null,
+      customer_email: contact?.email ?? null,
+      body,
+    });
+    sent = { ok: r.ok, message_id: r.message_id, mode: r.mode, error: r.error };
+  }
 
   if (!sent.ok) {
     // Stay APPROVED — never falsely show SENT.

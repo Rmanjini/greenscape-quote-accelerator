@@ -50,9 +50,18 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
             {contact?.email ? ` · ${contact.email}` : ""}
           </p>
         </div>
-        <span className={`chip ${STATUS_STYLE[proposal.status] ?? "bg-neutral-200 text-black"}`}>
-          {proposal.status.replace(/_/g, " ")}
-        </span>
+        <div className="flex flex-col items-end gap-2">
+          <span className={`chip ${STATUS_STYLE[proposal.status] ?? "bg-neutral-200 text-black"}`}>
+            {proposal.status.replace(/_/g, " ")}
+          </span>
+          <a
+            href={`/api/quotes/${proposal.id}/pdf`}
+            target="_blank"
+            className="text-xs font-extrabold uppercase text-brand underline"
+          >
+            📄 View PDF
+          </a>
+        </div>
       </div>
 
       {proposal.status === "FAILED" && (

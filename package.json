@@ -15,11 +15,13 @@
     "@supabase/supabase-js": "^2.45.4",
     "next": "14.2.15",
     "openai": "^4.67.3",
+    "pdfkit": "^0.15.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.16.11",
+    "@types/pdfkit": "^0.17.6",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.20",
