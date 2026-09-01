@@ -34,7 +34,7 @@ export default function QuoteActions({ id, status }: { id: string; status: strin
           <button
             onClick={() => post(`/api/quotes/${id}/generate`, "Regenerated.")}
             disabled={busy}
-            className="rounded-md bg-neutral-800 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+            className="btn btn-dark"
           >
             {busy ? "Retrying…" : "Retry AI"}
           </button>
@@ -43,21 +43,17 @@ export default function QuoteActions({ id, status }: { id: string; status: strin
           <button
             onClick={() => post(`/api/quotes/${id}/approve`, "Approved & sent to customer.")}
             disabled={busy}
-            className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-60"
+            className="btn"
           >
             {busy ? "Sending…" : "✅ Approve & Send"}
           </button>
         )}
-        {sent && (
-          <span className="rounded-md bg-green-100 px-4 py-2 text-sm font-medium text-green-800">
-            Sent to customer ✓
-          </span>
-        )}
+        {sent && <span className="chip bg-lime-300 text-black">Sent to customer ✓</span>}
       </div>
       {msg && (
         <p
-          className={`rounded-md px-3 py-2 text-sm ${
-            msg.kind === "ok" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
+          className={`rounded-lg border-2 border-black px-3 py-2 text-sm font-bold ${
+            msg.kind === "ok" ? "bg-lime-300 text-black" : "bg-red-300 text-black"
           }`}
         >
           {msg.text}

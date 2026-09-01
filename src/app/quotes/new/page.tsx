@@ -46,16 +46,16 @@ export default function NewQuote() {
     }
   }
 
-  const input = "w-full rounded-md border border-neutral-300 px-3 py-2 text-sm";
+  const input = "field";
 
   return (
     <div className="max-w-2xl">
-      <h1 className="mb-1 text-xl font-semibold">New Quote</h1>
-      <p className="mb-5 text-sm text-neutral-500">
+      <h1 className="h-brutal mb-1 text-2xl">New Quote</h1>
+      <p className="mb-5 text-sm font-medium text-neutral-700">
         Paste the site-walk notes. AI drafts a review-ready proposal; you approve it.
       </p>
 
-      <form onSubmit={submit} className="space-y-4">
+      <form onSubmit={submit} className="card space-y-4 p-5">
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="mb-1 block text-xs font-medium text-neutral-600">Customer name *</label>
@@ -85,7 +85,7 @@ export default function NewQuote() {
             <button
               type="button"
               onClick={() => setForm({ ...form, name: form.name || "Sarah Johnson", email: form.email || "sarah@example.com", site_walk_notes: DEMO_NOTES })}
-              className="text-xs text-brand underline"
+              className="text-xs font-extrabold uppercase text-brand underline"
             >
               Load demo notes
             </button>
@@ -99,12 +99,13 @@ export default function NewQuote() {
           />
         </div>
 
-        {error && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
+        {error && (
+          <p className="rounded-lg border-2 border-black bg-red-300 px-3 py-2 text-sm font-bold text-black">
+            {error}
+          </p>
+        )}
 
-        <button
-          disabled={submitting}
-          className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-60"
-        >
+        <button disabled={submitting} className="btn w-full">
           {submitting ? "Analyzing notes…" : "Generate proposal"}
         </button>
       </form>

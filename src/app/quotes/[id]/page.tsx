@@ -10,12 +10,12 @@ const money = (n: number | null) =>
   n == null ? "—" : `$${Number(n).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
 const STATUS_STYLE: Record<string, string> = {
-  NEEDS_REVIEW: "bg-amber-100 text-amber-800",
-  READY_FOR_APPROVAL: "bg-blue-100 text-blue-800",
-  APPROVED: "bg-indigo-100 text-indigo-800",
-  SENT: "bg-green-100 text-green-800",
-  FAILED: "bg-red-100 text-red-800",
-  DRAFT: "bg-neutral-100 text-neutral-700",
+  NEEDS_REVIEW: "bg-amber-300 text-black",
+  READY_FOR_APPROVAL: "bg-sky-300 text-black",
+  APPROVED: "bg-indigo-300 text-black",
+  SENT: "bg-lime-300 text-black",
+  FAILED: "bg-red-400 text-black",
+  DRAFT: "bg-neutral-200 text-black",
 };
 
 export default async function QuotePage({ params }: { params: { id: string } }) {
@@ -44,46 +44,42 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
 
       <div className="mt-2 flex items-start justify-between">
         <div>
-          <h1 className="text-xl font-semibold">{contact?.name ?? "Customer"}</h1>
-          <p className="text-sm text-neutral-500">
+          <h1 className="h-brutal text-2xl">{contact?.name ?? "Customer"}</h1>
+          <p className="text-sm font-medium text-neutral-700">
             {proposal.project_name || proposal.project_type || "Proposal"}
             {contact?.email ? ` · ${contact.email}` : ""}
           </p>
         </div>
-        <span
-          className={`rounded-full px-3 py-1 text-xs font-medium ${
-            STATUS_STYLE[proposal.status] ?? "bg-neutral-100"
-          }`}
-        >
+        <span className={`chip ${STATUS_STYLE[proposal.status] ?? "bg-neutral-200 text-black"}`}>
           {proposal.status.replace(/_/g, " ")}
         </span>
       </div>
 
       {proposal.status === "FAILED" && (
-        <div className="mt-4 rounded-md bg-red-50 p-4 text-sm text-red-700">
+        <div className="card mt-4 bg-red-300/70 p-4 text-sm font-bold text-black">
           AI processing failed. Your notes are safely stored. Retry below.
         </div>
       )}
 
       {!contact?.email && proposal.status !== "SENT" && (
-        <div className="mt-4 rounded-md bg-amber-50 p-3 text-sm text-amber-800">
+        <div className="card mt-4 bg-amber-300/70 p-3 text-sm font-bold text-black">
           ⚠️ Customer email is missing — required before sending.
         </div>
       )}
 
       {proposal.ai_summary && (
-        <section className="mt-5">
-          <h2 className="text-sm font-semibold text-neutral-700">Overview</h2>
-          <p className="mt-1 text-sm text-neutral-600">{proposal.ai_summary}</p>
+        <section className="card mt-5 p-4">
+          <h2 className="text-xs font-extrabold uppercase tracking-wide text-neutral-600">Overview</h2>
+          <p className="mt-1 text-sm text-neutral-800">{proposal.ai_summary}</p>
         </section>
       )}
 
       {proposal.needs_review && proposal.review_reasons?.length > 0 && (
-        <section className="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4">
-          <h2 className="text-sm font-semibold text-amber-800">
+        <section className="card mt-4 bg-amber-200/70 p-4">
+          <h2 className="h-brutal text-sm text-black">
             ⚠️ {proposal.review_reasons.length} item(s) need attention
           </h2>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-amber-800">
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm font-medium text-black">
             {proposal.review_reasons.map((r, i) => (
               <li key={i}>{r}</li>
             ))}
@@ -93,10 +89,10 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
 
       {items.length > 0 && (
         <section className="mt-5">
-          <h2 className="mb-2 text-sm font-semibold text-neutral-700">Scope & Pricing</h2>
-          <div className="overflow-x-auto rounded-md border">
+          <h2 className="h-brutal mb-2 text-base">Scope &amp; Pricing</h2>
+          <div className="card overflow-x-auto p-0">
             <table className="w-full text-sm">
-              <thead className="bg-neutral-50 text-left text-xs text-neutral-500">
+              <thead className="border-b-2 border-black bg-white/70 text-left text-xs font-extrabold uppercase text-neutral-700">
                 <tr>
                   <th className="px-3 py-2">Item</th>
                   <th className="px-3 py-2">Qty</th>
@@ -109,7 +105,7 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
                 {items.map((i) => (
                   <tr
                     key={i.id}
-                    className={`border-t ${i.needs_review ? "bg-amber-50" : ""}`}
+                    className={`border-t border-black/10 ${i.needs_review ? "bg-amber-200/60" : ""}`}
                   >
                     <td className="px-3 py-2">
                       <div className="font-medium">{i.description}</div>
@@ -139,7 +135,7 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="border-t bg-neutral-50 font-medium">
+              <tfoot className="border-t-2 border-black bg-white/70 font-extrabold">
                 <tr>
                   <td className="px-3 py-2" colSpan={3}>
                     Subtotal
@@ -169,7 +165,7 @@ export default async function QuotePage({ params }: { params: { id: string } }) 
         <ListBlock title="Unknowns" items={proposal.unknowns} />
       </div>
 
-      <div className="mt-6 border-t pt-4">
+      <div className="mt-6 border-t-2 border-black pt-4">
         <QuoteActions id={proposal.id} status={proposal.status} />
       </div>
     </div>

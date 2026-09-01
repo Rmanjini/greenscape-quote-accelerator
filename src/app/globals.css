@@ -2,6 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Neo-brutalism (thick black borders + hard offset shadows + chunky type)
+   blended with glassmorphism (frosted translucent panels over a vivid gradient
+   so the blur has something to work with). */
+
 body {
-  @apply bg-neutral-50 text-neutral-900;
+  @apply text-neutral-900;
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 600px at 8% -10%, #a7f3d0 0%, transparent 55%),
+    radial-gradient(1000px 520px at 112% 8%, #d9f99d 0%, transparent 52%),
+    radial-gradient(900px 700px at 50% 120%, #99f6e4 0%, transparent 55%),
+    #eef3ef;
+  background-attachment: fixed;
+  font-feature-settings: "ss01";
+}
+
+@layer components {
+  /* Frosted panel with a brutalist border + hard shadow */
+  .card {
+    @apply rounded-xl border-[3px] border-black bg-white/55 backdrop-blur-md;
+    box-shadow: 6px 6px 0 0 #000;
+  }
+  .card-tight {
+    @apply rounded-lg border-2 border-black bg-white/60 backdrop-blur;
+    box-shadow: 4px 4px 0 0 #000;
+  }
+
+  /* Chunky pressable button */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg border-[3px] border-black
+           bg-brand px-4 py-2 text-sm font-extrabold uppercase tracking-wide text-white
+           transition-all duration-75;
+    box-shadow: 4px 4px 0 0 #000;
+  }
+  .btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 0 #000;
+  }
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 #000;
+  }
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-60;
+    transform: none;
+    box-shadow: 4px 4px 0 0 #000;
+  }
+  .btn-dark { @apply bg-neutral-900; }
+  .btn-ghost { @apply bg-white/80 text-black; }
+
+  .field {
+    @apply w-full rounded-lg border-2 border-black bg-white/70 px-3 py-2 text-sm
+           outline-none transition-all duration-75;
+  }
+  .field:focus {
+    @apply bg-white;
+    box-shadow: 3px 3px 0 0 #000;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-md border-2 border-black px-2.5 py-0.5
+           text-xs font-extrabold uppercase tracking-wide;
+  }
+
+  .h-brutal { @apply font-extrabold tracking-tight; }
 }
