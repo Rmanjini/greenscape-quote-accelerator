@@ -103,6 +103,27 @@ curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=<APP_URL>/api/telegram/
 
 Telegram is optional — if unset, the app still works (notifications are skipped, approve via the dashboard).
 
+## Trade-offs & what breaks first at scale
+
+Honest about the edges, since this was scoped to 24h:
+
+- **Synchronous generation.** The OpenAI call runs inside the HTTP request, so a
+  slow model call blocks the response. Fine at Greenscape's volume (~a few quotes
+  a day); the first thing I'd move to a background job + queue under real concurrency.
+- **One LLM call does extract + match.** The whole catalog is stuffed into the
+  prompt. At their real 200+ line items this still fits, but beyond a few hundred
+  SKUs I'd switch matching to embeddings/vector search over the catalog and let
+  the LLM only do scope extraction.
+- **No auth / single service-role client.** Correct for a one-user internal tool;
+  needs Supabase RLS + real auth before it's multi-tenant. This is the first
+  security item, not a v1 gap.
+- **GHL send is mocked.** No client creds available; the adapter is the real
+  shape, so going live is a single function body + OAuth + rate-limit handling.
+- **No in-UI line-item editing yet.** Marcus can retry the AI or fix downstream in
+  GHL; inline editing of a flagged quantity is the highest-value next UI change.
+- **Pricing model is simple.** `qty × unit_price`; no tax, fees, or tiered
+  discounts modeled yet (discount is deliberately locked at 0 as a guardrail).
+
 ## What I'd do next (scope cut for 24h)
 
 - Editable line items in the review UI (today Marcus retries or edits in GHL).
