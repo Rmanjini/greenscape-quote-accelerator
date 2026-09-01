@@ -2,8 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 
 // Server-only client using the service-role key. API routes own all writes;
 // there is no public/browser Supabase access in v1, so no RLS policies needed.
-// ponytail: single service-role client is fine here — internal tool, no end-user
-// auth. Add RLS + anon client when this is exposed beyond Marcus/Jenna.
+// A single service-role client is fine for an internal tool with no end-user
+// auth. Add RLS + an anon client when this is exposed beyond Marcus/Jenna.
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 

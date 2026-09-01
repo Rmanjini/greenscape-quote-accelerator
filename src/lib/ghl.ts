@@ -4,7 +4,7 @@
 // message id. The interface is the real one, so swapping in the live API later
 // is a single function body change, not a refactor.
 //
-// ponytail: adapter + mock instead of a half-real integration we can't test.
+// Adapter + mock instead of a half-real integration we can't test.
 // Production target is the real GHL conversations/messages API.
 
 const GHL_API_KEY = process.env.GHL_API_KEY;
